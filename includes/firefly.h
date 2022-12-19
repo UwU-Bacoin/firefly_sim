@@ -3,6 +3,8 @@
 
     #define F_THRESHOLD (100)
     #define FF_NULL (-1)
+    #define FF_INTAKE (10)
+    #define FF_RADIUS (2)
 
     #ifndef bool
         #include <stdbool.h>
