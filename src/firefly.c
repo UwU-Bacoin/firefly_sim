@@ -10,6 +10,11 @@ firefly_t *firefly_init(void)
     return firefly;
 }
 
+void firefly_increment(firefly_t *ff)
+{
+    ff->energy += ff->delta;
+}
+
 void firefly_destroy(firefly_t *firefly)
 {
     free(firefly);

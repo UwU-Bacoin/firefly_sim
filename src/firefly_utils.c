@@ -13,8 +13,3 @@ void firefly_display(double energy_level, bool verbose)
         printf(" (%f)", energy_level);
     printf("\n");
 }
-
-double firefly_increment(double energy_level, double delta_energy)
-{
-    return energy_level + delta_energy;
-}
