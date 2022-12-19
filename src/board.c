@@ -1,9 +1,18 @@
 #include <malloc.h>
 #include "board.h"
 
-board_t board_alloc(int height, int width)
+__attribute__((nonnull(1)))
+static int **board_alloc_failed(int **board, int i)
 {
-    board_t board = malloc(height * sizeof(int *));
+    for (int j = i; j > 0; j--)
+        free(board[j]);
+    free(board);
+    return NULL;
+}
+
+int **board_alloc(int height, int width)
+{
+    int **board = malloc(height * sizeof(int *));
 
     if (board == NULL)
         return NULL;
@@ -15,15 +24,7 @@ board_t board_alloc(int height, int width)
     return board;
 }
 
-board_t board_alloc_failed(board_t board, int i)
-{
-    for (int j = i; j > 0; j--)
-        free(board[j]);
-    free(board);
-    return NULL;
-}
-
-void board_free(board_t board, int height)
+void board_free(int **board, int height)
 {
     board_alloc_failed(board, height);
 }

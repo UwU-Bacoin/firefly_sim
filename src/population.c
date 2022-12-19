@@ -2,6 +2,16 @@
 #include "firefly.h"
 #include "population.h"
 
+__attribute__((nonnull(1)))
+static population_t *population_alloc_failed(population_t *pop, int i)
+{
+    for (int j = i - 1; j >= 0; j--)
+        free(pop->individuals[j]);
+    free(pop->individuals);
+    free(pop);
+    return NULL;
+}
+
 population_t *population_create(int size)
 {
     population_t *pop = malloc(sizeof(population_t));
@@ -22,16 +32,7 @@ population_t *population_create(int size)
     return pop;
 }
 
-
-population_t *population_alloc_failed(population_t *pop, int i)
-{
-    for (int j = i - 1; j >= 0; j--)
-        free(pop->individuals[j]);
-    free(pop->individuals);
-    free(pop);
-    return NULL;
-}
-
+__attribute__((nonnull(1)))
 void population_destroy(population_t *pop)
 {
     population_alloc_failed(pop, pop->size);

@@ -10,11 +10,13 @@ firefly_t *firefly_init(void)
     return firefly;
 }
 
+__attribute__((nonnull(1)))
 void firefly_increment(firefly_t *ff)
 {
     ff->energy += ff->delta;
 }
 
+__attribute__((nonnull(1)))
 void firefly_destroy(firefly_t *firefly)
 {
     free(firefly);
