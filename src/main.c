@@ -14,11 +14,12 @@ void init_random(void)
 
 int main(void)
 {
-    population_t pop = population_create(100);
+    population_t *pop = population_create(100);
     firefly_t *ff;
 
     for (int i = 0; i < 100; i++) {
-        ff = pop[i];
+        ff = pop->individuals[i];
         printf("Firefly %d: energy = %.3f, delta = %.3f\n", i, ff->energy, ff->delta);
     }
+    population_destroy(pop);
 }
