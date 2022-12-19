@@ -2,7 +2,7 @@
     #define FIREFLY_H_
 
     #define F_THRESHOLD 100
-    #define F_NULL -1;
+    #define FF_NULL -1;
 
     #ifndef bool
         #include <stdbool.h>
