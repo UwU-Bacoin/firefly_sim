@@ -18,7 +18,7 @@ static void meadow_display_line(meadow_t *meadow, population_t *pop, int line)
     printf("#");
     for (int i = 0; i < meadow->width; i++) {
         if (meadow->content[line][i] != FF_NULL) {
-            meadow_display_firefly(meadow->content[0][i], pop);
+            meadow_display_firefly(meadow->content[line][i], pop);
         } else {
             printf(" ");
         }
@@ -29,12 +29,12 @@ static void meadow_display_line(meadow_t *meadow, population_t *pop, int line)
 __attribute__((nonnull(1, 2)))
 void meadow_display(meadow_t *meadow, population_t *pop)
 {
-    for (int i = 0; i < meadow->height; i++)
+    for (int i = 0; i < meadow->height + 2; i++)
         printf("#");
     printf("\n");
     for (int i = 0; i < meadow->height; i++)
         meadow_display_line(meadow, pop, i);
-    for (int i = 0; i < meadow->height; i++)
+    for (int i = 0; i < meadow->height + 2; i++)
         printf("#");
     printf("\n");
 }

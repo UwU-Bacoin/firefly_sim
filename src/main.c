@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-#include <stdio.h>
 
-#include "firefly.h"
 #include "population.h"
+#include "meadow.h"
 
 __attribute__((constructor))
 void init_random(void)
@@ -15,11 +14,9 @@ void init_random(void)
 int main(void)
 {
     population_t *pop = population_create(100);
-    firefly_t *ff;
+    meadow_t *meadow = meadow_init(15, 15, pop);
 
-    for (int i = 0; i < 100; i++) {
-        ff = pop->individuals[i];
-        printf("Firefly %d: energy = %.3f, delta = %.3f\n", i, ff->energy, ff->delta);
-    }
+    meadow_display(meadow, pop);
     population_destroy(pop);
+    meadow_destroy(meadow);
 }

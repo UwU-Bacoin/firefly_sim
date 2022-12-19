@@ -1,5 +1,4 @@
 #include "firefly.h"
-#include "firefly_utils.h"
 
 void simulate_firefly_steps(int steps)
 {
@@ -8,7 +7,7 @@ void simulate_firefly_steps(int steps)
     if (!ff)
         return;
     for (int i = 0; i < steps; i++) {
-        ff->energy = firefly_increment(ff->energy, ff->delta);
+        firefly_increment(ff);
         firefly_display(ff->energy, true);
         if (ff->energy > F_THRESHOLD)
             ff->energy = 0;
@@ -24,7 +23,7 @@ void simulate_firefly_flashes(int flash_count)
     if (!ff)
         return;
     while (remaining_flashes) {
-        ff->energy = firefly_increment(ff->energy, ff->delta);
+        firefly_increment(ff);
         firefly_display(ff->energy, true);
         if (ff->energy > F_THRESHOLD) {
             ff->energy = 0;
