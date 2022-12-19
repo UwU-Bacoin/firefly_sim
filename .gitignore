@@ -1,0 +1,10 @@
+# Executable
+firefly_sim
+
+# Build
+build
+*.o
+*.d
+
+# IDE config
+.idea
