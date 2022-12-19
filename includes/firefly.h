@@ -13,6 +13,7 @@ typedef struct firefly {
     double delta_energy;
 } firefly_t;
 
-char firefly_symbol(int energy_level);
-void firefly_display(int energy_level, bool verbose);
+char firefly_symbol(double energy_level);
+void firefly_display(double energy_level, bool verbose);
+double firefly_increment(double energy_level, double delta_energy);
 #endif
