@@ -14,6 +14,8 @@ SRC += $(SRC_DIR)/simulation.c
 SRC += $(SRC_DIR)/population.c
 SRC += $(SRC_DIR)/meadow.c
 SRC += $(SRC_DIR)/meadow_display.c
+SRC += $(SRC_DIR)/neighbours.c
+SRC += $(SRC_DIR)/neighbours_compute.c
 
 # Build
 BUILD_DIR = build
