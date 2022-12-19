@@ -10,6 +10,7 @@ SRC += $(SRC_DIR)/firefly.c
 SRC += $(SRC_DIR)/firefly_utils.c
 SRC += $(SRC_DIR)/simulation.c
 SRC += $(SRC_DIR)/population.c
+SRC += $(SRC_DIR)/meadow.c
 
 # Build
 BUILD_DIR = build
