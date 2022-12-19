@@ -1,6 +1,7 @@
 #include <malloc.h>
 #include "firefly.h"
 #include "population.h"
+#include "neighbours.h"
 
 __attribute__((nonnull(1)))
 static population_t *population_alloc_failed(population_t *pop, int i)
@@ -38,16 +39,17 @@ void population_destroy(population_t *pop)
     population_alloc_failed(pop, pop->size);
 }
 
-__attribute__((nonnull(1)))
-void population_update(population_t *pop)
+__attribute__((nonnull(1, 2)))
+void population_update(population_t *pop, int **neighbours)
 {
     firefly_t *ff;
 
     for (int i = 0; i < pop->size; i++) {
         ff = pop->individuals[i];
-        if (ff->energy > F_THRESHOLD) {
+        if (ff->energy > F_THRESHOLD)
             ff->energy = 0;
-        }
         firefly_increment(ff);
+        if (ff->energy > F_THRESHOLD)
+            neighbours_increment(neighbours[i], pop->individuals);
     }
 }
