@@ -11,5 +11,6 @@ typedef struct population_s {
 } population_t;
 
 population_t *population_create(int size);
+void population_update(population_t *pop);
 void population_destroy(population_t *pop);
 #endif

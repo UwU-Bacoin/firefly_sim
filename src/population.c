@@ -37,3 +37,17 @@ void population_destroy(population_t *pop)
 {
     population_alloc_failed(pop, pop->size);
 }
+
+__attribute__((nonnull(1)))
+void population_update(population_t *pop)
+{
+    firefly_t *ff;
+
+    for (int i = 0; i < pop->size; i++) {
+        ff = pop->individuals[i];
+        if (ff->energy > F_THRESHOLD) {
+            ff->energy = 0;
+        }
+        firefly_increment(ff);
+    }
+}

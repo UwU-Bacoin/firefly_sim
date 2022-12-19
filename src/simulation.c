@@ -1,4 +1,6 @@
 #include "firefly.h"
+#include "population.h"
+#include "meadow.h"
 
 void simulate_firefly_steps(int steps)
 {
@@ -31,4 +33,12 @@ void simulate_firefly_flashes(int flash_count)
         }
     }
     firefly_destroy(ff);
+}
+
+void simulate_meadow_steps(meadow_t *meadow, population_t *pop, int steps)
+{
+    for (int i = 0; i < steps; i++) {
+        population_update(pop);
+        meadow_display(meadow, pop);
+    }
 }
