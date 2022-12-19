@@ -9,8 +9,8 @@
     #endif
 
 typedef struct firefly {
-    double current_energy;
-    double delta_energy;
+    double energy;
+    double delta;
 } firefly_t;
 
 firefly_t *firefly_init(void);

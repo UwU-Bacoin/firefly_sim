@@ -3,39 +3,33 @@
 
 void simulate_firefly_steps(int steps)
 {
-    firefly_t *firefly = firefly_init();
+    firefly_t *ff = firefly_init();
 
-    if (!firefly)
+    if (!ff)
         return;
     for (int i = 0; i < steps; i++) {
-        firefly->current_energy = firefly_increment(
-            firefly->current_energy,
-            firefly->delta_energy
-        );
-        firefly_display(firefly->current_energy, true);
-        if (firefly->current_energy > F_THRESHOLD)
-            firefly->current_energy = 0;
+        ff->energy = firefly_increment(ff->energy, ff->delta);
+        firefly_display(ff->energy, true);
+        if (ff->energy > F_THRESHOLD)
+            ff->energy = 0;
     }
-    firefly_destroy(firefly);
+    firefly_destroy(ff);
 }
 
 void simulate_firefly_flashes(int flash_count)
 {
-    firefly_t *firefly = firefly_init();
+    firefly_t *ff = firefly_init();
     int remaining_flashes = flash_count;
 
-    if (!firefly)
+    if (!ff)
         return;
     while (remaining_flashes) {
-        firefly->current_energy = firefly_increment(
-            firefly->current_energy,
-            firefly->delta_energy
-        );
-        firefly_display(firefly->current_energy, true);
-        if (firefly->current_energy > F_THRESHOLD) {
-            firefly->current_energy = 0;
+        ff->energy = firefly_increment(ff->energy, ff->delta);
+        firefly_display(ff->energy, true);
+        if (ff->energy > F_THRESHOLD) {
+            ff->energy = 0;
             remaining_flashes--;
         }
     }
-    firefly_destroy(firefly);
+    firefly_destroy(ff);
 }
