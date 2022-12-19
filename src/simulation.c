@@ -16,6 +16,7 @@ void simulate_firefly_steps(int steps)
         if (firefly->current_energy > F_THRESHOLD)
             firefly->current_energy = 0;
     }
+    firefly_destroy(firefly);
 }
 
 void simulate_firefly_flashes(int flash_count)
@@ -36,4 +37,5 @@ void simulate_firefly_flashes(int flash_count)
             remaining_flashes--;
         }
     }
+    firefly_destroy(firefly);
 }

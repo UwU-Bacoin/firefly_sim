@@ -1,23 +1,16 @@
-#include <stdio.h>
-#include <stdbool.h>
+#include <stdlib.h>
 
 #include "firefly.h"
 
-char firefly_symbol(double energy_level)
+firefly_t *firefly_init(void)
 {
-    return (energy_level > F_THRESHOLD) ? '*': ' ';
+    firefly_t *firefly = malloc(sizeof(firefly_t));
+    firefly->current_energy = drand48() * 100;
+    firefly->delta_energy = drand48();
+    return firefly;
 }
 
-void firefly_display(double energy_level, bool verbose)
+void firefly_destroy(firefly_t *firefly)
 {
-    printf("%c", firefly_symbol(energy_level));
-    if (verbose)
-        printf(" (%f)", energy_level);
-    printf("\n");
-}
-
-
-double firefly_increment(double energy_level, double delta_energy)
-{
-    return energy_level + delta_energy;
+    free(firefly);
 }
