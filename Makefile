@@ -7,6 +7,8 @@ SRC_DIR = src
 
 SRC := $(SRC_DIR)/main.c
 SRC += $(SRC_DIR)/firefly.c
+SRC += $(SRC_DIR)/firefly_utils.c
+SRC += $(SRC_DIR)/simulation.c
 
 # Build
 BUILD_DIR = build
