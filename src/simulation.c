@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdio.h>
 #include "firefly.h"
 #include "population.h"
 #include "meadow.h"
@@ -41,10 +42,13 @@ void simulate_meadow_steps(
     meadow_t *meadow, population_t *pop, int steps, int **neighbours)
 {
     ge_GIF *gif = create_gif(meadow);
+    float progress;
 
     for (int i = 0; i < steps; i++) {
         population_update(pop, neighbours);
-        add_frame(gif, meadow, pop);
+        progress = (float) i / (float)steps;
+        printf("Progress: %.3f\t\r", 100 * progress);
+        add_frame(gif, meadow, pop, progress);
     }
     ge_close_gif(gif);
 }

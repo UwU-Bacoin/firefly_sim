@@ -1,9 +1,9 @@
 #ifndef FIREFLY_H_
     #define FIREFLY_H_
 
-    #define F_THRESHOLD (100)
+    #define F_THRESHOLD (25)
     #define FF_NULL (-1)
-    #define FF_INTAKE (10)
+    #define FF_INTAKE (100)
 
     #define FF_RADIUS (2)
     #define FF_PERIMETER (FF_RADIUS * 2)

@@ -1,7 +1,7 @@
 NAME = firefly_sim
 
 CC = gcc
-CFLAGS = -I includes -I libs/gifenc
+CFLAGS = -I includes -I libs/gifenc -O3
 
 SRC_DIR = src
 
