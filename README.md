@@ -6,7 +6,7 @@ I got challenged to do this assignment in about 4 hours, so here is what i did.
 
 - Clone the repository
 ```sh
-git clone https://github.com/Sigmanificient/firefly-sim.git
+git clone https://github.com/Sigmanificient/firefly-sim.git --recursive
 ```
 
 - Compile the code
