@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "board.h"
 
 __attribute__((nonnull(1)))

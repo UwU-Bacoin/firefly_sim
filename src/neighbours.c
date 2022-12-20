@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "firefly.h"
 #include "meadow.h"
 #include "board.h"

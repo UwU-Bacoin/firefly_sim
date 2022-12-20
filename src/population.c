@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "firefly.h"
 #include "population.h"
 #include "neighbours.h"
