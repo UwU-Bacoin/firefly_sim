@@ -6,7 +6,7 @@
     #define FF_INTAKE (100)
 
     #define FF_RADIUS (2)
-    #define FF_PERIMETER (FF_RADIUS * 2)
+    #define FF_PERIMETER (FF_RADIUS * 2 + 1)
     #define FF_RADIUS_MAX_IN (FF_PERIMETER * FF_PERIMETER)
 
     #ifndef bool
