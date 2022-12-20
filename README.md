@@ -2,6 +2,8 @@
 
 I got challenged to do this assignment in about 4 hours, so here is what i did.
 
+![demo](demo.gif)
+
 ## How to run
 
 - Clone the repository
