@@ -1,7 +1,7 @@
 NAME = firefly_sim
 
 CC = gcc
-CFLAGS = -I includes
+CFLAGS = -I includes -I libs/gifenc
 
 SRC_DIR = src
 
@@ -10,12 +10,15 @@ SRC := $(SRC_DIR)/main.c
 SRC += $(SRC_DIR)/board.c
 SRC += $(SRC_DIR)/firefly.c
 SRC += $(SRC_DIR)/firefly_utils.c
-SRC += $(SRC_DIR)/simulation.c
-SRC += $(SRC_DIR)/population.c
+SRC += $(SRC_DIR)/gif.c
 SRC += $(SRC_DIR)/meadow.c
 SRC += $(SRC_DIR)/meadow_display.c
 SRC += $(SRC_DIR)/neighbours.c
 SRC += $(SRC_DIR)/neighbours_compute.c
+SRC += $(SRC_DIR)/population.c
+SRC += $(SRC_DIR)/simulation.c
+
+SRC += libs/gifenc/gifenc.c
 
 # Build
 BUILD_DIR = build
