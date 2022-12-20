@@ -1,6 +1,8 @@
+#include <unistd.h>
 #include "firefly.h"
 #include "population.h"
 #include "meadow.h"
+#include "gif.h"
 
 void simulate_firefly_steps(int steps)
 {
@@ -38,8 +40,11 @@ void simulate_firefly_flashes(int flash_count)
 void simulate_meadow_steps(
     meadow_t *meadow, population_t *pop, int steps, int **neighbours)
 {
+    ge_GIF *gif = create_gif(meadow);
+
     for (int i = 0; i < steps; i++) {
         population_update(pop, neighbours);
-        meadow_display(meadow, pop);
+        add_frame(gif, meadow, pop);
     }
+    ge_close_gif(gif);
 }
