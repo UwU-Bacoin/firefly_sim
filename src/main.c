@@ -16,12 +16,12 @@ void init_random(void)
 
 int main(void)
 {
-    population_t *pop = population_create(1024);
-    meadow_t *meadow = meadow_init(256, 256, pop);
+    population_t *pop = population_create(100);
+    meadow_t *meadow = meadow_init(13, 13, pop);
     int **neighbours = neighbours_compute(meadow, pop->size);
 
-    simulate_meadow_steps(meadow, pop, 100000, neighbours);
-    population_destroy(pop);
+    simulate_meadow_steps(meadow, pop, 1000, neighbours);
     meadow_destroy(meadow);
     neighbour_free(neighbours, pop->size);
+    population_destroy(pop);
 }

@@ -19,19 +19,21 @@ static int add_neighbour(meadow_t *meadow, int x, int y, int *nb)
 static void compute_neighbours_firefly(
     meadow_t *meadow, int *neighbours, int x, int y)
 {
-    int next = 0;
+    int current = 0;
 
-    for (int cx = (x - FF_RADIUS); cx <= (x + FF_RADIUS); cx++)
-        for (int cy = (y - FF_RADIUS); cy <= (y + FF_RADIUS); cy++)
-            next += add_neighbour(meadow, cx, cy, &neighbours[next]);
+    for (int cx = (x - FF_RADIUS); cx <= (x + FF_RADIUS); cx++) {
+        for (int cy = (y - FF_RADIUS); cy <= (y + FF_RADIUS); cy++) {
+            if (cx == x && cy == y)
+                continue;
+            current += add_neighbour(meadow, cx, cy, &neighbours[current]);
+        }
+    }
 }
 
 static int compute_neighbours_line(
-    meadow_t *meadow, int **pop_neighbours, int y)
+    meadow_t *meadow, int **pop_neighbours, int y, int next)
 {
-    int next = 0;
-
-    for (int x = 0; x < meadow->height; x++) {
+    for (int x = 0; x < meadow->width; x++) {
         if (meadow->content[y][x] == FF_NULL)
             continue;
         compute_neighbours_firefly(meadow, pop_neighbours[next], x, y);
@@ -47,7 +49,7 @@ int **neighbours_compute(meadow_t *meadow, int pop_count)
 
     if (pop_neighbours == NULL)
         return NULL;
-    for (int y = 0; y < meadow->width; y++)
-        next += compute_neighbours_line(meadow, pop_neighbours, y);
+    for (int y = 0; y < meadow->height; y++)
+        next = compute_neighbours_line(meadow, pop_neighbours, y, next);
     return pop_neighbours;
 }
