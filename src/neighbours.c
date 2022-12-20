@@ -3,15 +3,15 @@
 #include "meadow.h"
 #include "board.h"
 
-int **neighbour_alloc(meadow_t *meadow, int pop_count)
+int **neighbour_alloc(int pop_count)
 {
     int **neighbours = board_alloc(pop_count, FF_RADIUS_MAX_IN);
 
     if (neighbours == NULL)
         return NULL;
-    for (int i = 0; i < pop_count; i++)
-        for (int j = 0; j < (FF_RADIUS_MAX_IN); j++)
-            neighbours[i][j] = FF_NULL;
+    for (int y = 0; y < pop_count; y++)
+        for (int x = 0; x < (FF_RADIUS_MAX_IN); x++)
+            neighbours[y][x] = FF_NULL;
     return neighbours;
 }
 

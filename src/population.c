@@ -46,10 +46,10 @@ void population_update(population_t *pop, int **neighbours)
 
     for (int i = 0; i < pop->size; i++) {
         ff = pop->individuals[i];
-        if (ff->energy > F_THRESHOLD)
-            ff->energy = 0;
-        firefly_increment(ff);
-        if (ff->energy > F_THRESHOLD)
+        if (ff->energy > F_THRESHOLD) {
             neighbours_increment(neighbours[i], pop->individuals);
+            ff->energy = 0;
+        }
+        firefly_increment(ff);
     }
 }

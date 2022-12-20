@@ -5,7 +5,7 @@
         #include "meadow.h"
     #endif
 
-int **neighbour_alloc(meadow_t *meadow, int pop_count);
+int **neighbour_alloc(int pop_count);
 int **neighbours_compute(meadow_t *meadow, int pop_count);
 void neighbours_increment(int const *neighbours, firefly_t **pop);
 void neighbour_free(int **neighbours, int pop_count);

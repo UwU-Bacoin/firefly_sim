@@ -16,9 +16,9 @@ meadow_t *meadow_init_empty(int height, int width)
         free(meadow);
         return NULL;
     }
-    for (int i = 0; i < height; i++)
-        for (int j = 0; j < width; j++)
-            meadow->content[i][j] = FF_NULL;
+    for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++)
+            meadow->content[y][x] = FF_NULL;
     return meadow;
 }
 
