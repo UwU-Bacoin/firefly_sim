@@ -36,7 +36,7 @@ ifneq ($(shell tput colors),0)
     C_CYAN=\e[36m
 endif
 
-ECHO  = /bin/echo -e
+ECHO = echo -e
 
 # Output
 ASK = @ $(ECHO) "$(C_BOLD)$(C_BLUE)?$(C_RESET)"
