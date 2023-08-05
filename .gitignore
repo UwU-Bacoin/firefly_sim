@@ -1,10 +1,11 @@
 # Executable
 firefly_sim
+debug
+asan
 
 # Build
-build
-*.o
-*.d
+.build
+.fast
 
-# IDE config
-.idea
+# Gif output
+meadow.gif
