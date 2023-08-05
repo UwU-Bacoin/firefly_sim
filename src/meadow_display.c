@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-#include "population.h"
-#include "firefly.h"
-#include "meadow.h"
+#include "firefly_sim.h"
 
 static
 void meadow_display_firefly(int ff_id, population_t *pop)

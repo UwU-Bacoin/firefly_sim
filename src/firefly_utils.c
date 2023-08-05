@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "firefly.h"
+#include "firefly_sim.h"
 
 char firefly_symbol(double energy_level)
 {

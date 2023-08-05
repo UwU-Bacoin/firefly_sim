@@ -1,7 +1,6 @@
 #include <stdlib.h>
-#include "board.h"
-#include "meadow.h"
-#include "firefly.h"
+
+#include "firefly_sim.h"
 
 meadow_t *meadow_init_empty(int height, int width)
 {

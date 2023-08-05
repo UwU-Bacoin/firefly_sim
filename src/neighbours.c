@@ -1,7 +1,5 @@
 #include <stdlib.h>
-#include "firefly.h"
-#include "meadow.h"
-#include "board.h"
+#include "firefly_sim.h"
 
 int **neighbour_alloc(int pop_count)
 {

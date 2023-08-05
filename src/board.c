@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include "board.h"
+
+#include "firefly_sim.h"
 
 static
 int **board_alloc_failed(int **board, int i)

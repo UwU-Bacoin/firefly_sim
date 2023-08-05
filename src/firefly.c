@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "firefly.h"
+#include "firefly_sim.h"
 
 firefly_t *firefly_init(void)
 {

@@ -1,5 +1,5 @@
-#include "gifenc.h"
-#include "meadow.h"
+#include "gif.h"
+#include "firefly_sim.h"
 
 ge_GIF *create_gif(meadow_t *meadow)
 {

@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "population.h"
-#include "meadow.h"
+#include "firefly_sim.h"
 #include "gif.h"
 
 void simulate_meadow_steps(

@@ -1,9 +1,8 @@
 #include <stddef.h>
-#include "firefly.h"
-#include "meadow.h"
-#include "neighbours.h"
+#include "firefly_sim.h"
 
-static int add_neighbour(meadow_t *meadow, int x, int y, int *nb)
+static
+int add_neighbour(meadow_t *meadow, int x, int y, int *nb)
 {
     if (y < 0 || y >= meadow->height)
         return 0;
@@ -15,7 +14,8 @@ static int add_neighbour(meadow_t *meadow, int x, int y, int *nb)
     return 1;
 }
 
-static void compute_neighbours_firefly(
+static
+void compute_neighbours_firefly(
     meadow_t *meadow, int *neighbours, int x, int y)
 {
     int current = 0;

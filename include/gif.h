@@ -1,13 +1,8 @@
 #ifndef GIF_H_
     #define GIF_H_
 
-    #ifndef meadow_t
-        #include "meadow.h"
-    #endif
-
-    #ifndef ge_GIF
-        #include "gifenc.h"
-    #endif
+    #include "firefly_sim.h"
+    #include "gifenc.h"
 
 ge_GIF *create_gif(meadow_t *meadow);
 void add_frame(

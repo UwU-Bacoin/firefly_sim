@@ -1,7 +1,5 @@
 #include <stdlib.h>
-#include "firefly.h"
-#include "population.h"
-#include "neighbours.h"
+#include "firefly_sim.h"
 
 static
 population_t *population_alloc_failed(population_t *pop, int i)

@@ -2,10 +2,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "simulation.h"
-#include "population.h"
-#include "meadow.h"
-#include "neighbours.h"
+#include "firefly_sim.h"
 
 __attribute__((constructor))
 __attribute__((used))
