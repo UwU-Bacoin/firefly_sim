@@ -3,6 +3,7 @@ BUILD_DIR := .build
 
 NAME := firefly_sim
 NAME_DEBUG := debug
+NAME_ASAN := asan
 
 # ↓ Sources
 
@@ -40,18 +41,21 @@ CFLAGS += -iquote libs/gifenc
 # ↓ Recipes
 OBJ := $(SRC:%.c=$(BUILD_DIR)/release/%.o)
 OBJ_DEBUG := $(DSRC:%.c=$(BUILD_DIR)/debug/%.o)
+OBJ_ASAN := $(DSRC:%.c=$(BUILD_DIR)/asan/%.o)
 
 DEPFLAGS := -MMD -MP
 
 DEPS := $(OBJ:.o=.d)
 DEPS_DEBUG := $(OBJ_DEBUG:.o=.d)
+DEPS_ASAN := $(OBJ_ASAN:.o=.d)
 
 NAMES += $(NAME)
 NAMES += $(NAME_DEBUG)
+NAMES += $(NAME_ASAN)
 
 OBJS += $(OBJ)
 OBJS += $(OBJ_DEBUG)
-OBJS += $(OBJ_TESTS)
+OBJS += $(OBJ_ASAN)
 
 # ↓ clean & fclean helpers
 CLEAN := $(OBJS)
@@ -139,6 +143,18 @@ $(NAME_DEBUG): $(OBJ_DEBUG)
 	$Q $(CC) $(CFLAGS) $(LIBFLAGS) $(LDLIBS) -o $@ $^
 	$(call LOG,":g$@")
 
+$(BUILD_DIR)/asan/%.o: %.c
+	@ mkdir -p $(dir $@)
+	$Q $(CC) $(DEPFLAGS) $(CFLAGS) -c $< -o $@
+	$(call LOG, ":c" $(notdir $@))
+
+$(NAME_ASAN): CFLAGS += -g3 -D DEBUG_MODE
+$(NAME_ASAN): CFLAGS += -fsanitize=address,leak,undefined
+$(NAME_ASAN): HEADER += "asan"
+$(NAME_ASAN): $(OBJ_ASAN)
+	$Q $(CC) $(CFLAGS) $(LIBFLAGS) $(LDLIBS) -o $@ $^
+	$(call LOG,":g$@")
+
 $(BUILD_DIR)/debug/%.o: %.c
 	@ mkdir -p $(dir $@)
 	$Q $(CC) $(DEPFLAGS) $(CFLAGS) -c $< -o $@
@@ -172,6 +188,7 @@ re:	fclean
 
 -include $(DEPS)
 -include $(DEPS_DEBUG)
+-include $(DEPS_ASAN)
 
 ifneq ($(shell find . -name override.mk),)
     HOOK_AFTER := 1
