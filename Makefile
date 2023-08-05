@@ -14,7 +14,6 @@ SRC += firefly.c
 SRC += firefly_utils.c
 SRC += gif.c
 SRC += meadow.c
-SRC += meadow_display.c
 SRC += neighbours.c
 SRC += neighbours_compute.c
 SRC += population.c

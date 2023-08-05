@@ -14,8 +14,8 @@ void init_random(void)
 
 int main(void)
 {
-    population_t *pop = population_create(100);
-    meadow_t *meadow = meadow_init(128, 128, pop);
+    population_t *pop = population_create(4096);
+    meadow_t *meadow = meadow_init(512, 512, pop);
     int **neighbours = neighbours_compute(meadow, pop->size);
 
     simulate_meadow_steps(meadow, pop, 1000, neighbours);

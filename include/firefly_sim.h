@@ -11,24 +11,23 @@
 
     #include <stdbool.h>
 
-typedef struct meadow_s {
+typedef struct {
     int height;
     int width;
     int **content;
 } meadow_t;
 
-typedef struct firefly {
+typedef struct {
     double energy;
     double delta;
 } firefly_t;
 
-typedef struct population_s {
+typedef struct {
     int size;
-    firefly_t **individuals;
+    firefly_t *individuals;
 } population_t;
 
-firefly_t *firefly_init(void);
-
+void firefly_init(firefly_t *firefly);
 char firefly_symbol(double energy_level);
 void firefly_increment(firefly_t *ff);
 
@@ -41,7 +40,7 @@ void meadow_destroy(meadow_t *meadow);
 
 int **neighbour_alloc(int pop_count);
 int **neighbours_compute(meadow_t *meadow, int pop_count);
-void neighbours_increment(int const *neighbours, firefly_t **pop);
+void neighbours_increment(int const *neighbours, firefly_t *pop);
 void neighbour_free(int **neighbours, int pop_count);
 
 population_t *population_create(int size);

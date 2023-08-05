@@ -23,7 +23,7 @@ static int resolve_col(meadow_t *meadow, population_t *pop, int i, int j)
 
     if (ff_id == FF_NULL)
         return 0;
-    return 1 + (pop->individuals[ff_id]->energy > F_THRESHOLD);
+    return 1 + (pop->individuals[ff_id].energy > F_THRESHOLD);
 }
 
 void add_frame(ge_GIF *gif, meadow_t *meadow, population_t *pop, float progress)

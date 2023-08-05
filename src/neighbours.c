@@ -13,12 +13,12 @@ int **neighbour_alloc(int pop_count)
     return neighbours;
 }
 
-void neighbours_increment(int const *neighbours, firefly_t **pop)
+void neighbours_increment(int const *neighbours, firefly_t *pop)
 {
     int ff_idx = 0;
 
     while (neighbours[ff_idx] != FF_NULL) {
-        pop[ff_idx]->energy += FF_INTAKE;
+        (pop + ff_idx)->energy += FF_INTAKE;
         ff_idx++;
     }
 }
