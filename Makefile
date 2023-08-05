@@ -20,7 +20,7 @@ SRC += neighbours_compute.c
 SRC += population.c
 SRC += simulation.c
 
-VPATH += libs/gifenc
+VPATH += gifenc
 SRC += gifenc.c
 
 # ↓ Debug only sources
@@ -32,11 +32,10 @@ CC := gcc
 
 CFLAGS := -W -Wall -Wextra
 CFLAGS := -O2 -march=native
-CFLAGS += -iquote ./include
 CFLAGS += -U_FORTIFY_SOURCE
 
 CFLAGS += -iquote ./include
-CFLAGS += -iquote libs/gifenc
+CFLAGS += -iquote ./gifenc
 
 # ↓ Recipes
 OBJ := $(SRC:%.c=$(BUILD_DIR)/release/%.o)
