@@ -11,7 +11,6 @@ VPATH := src
 SRC += main.c
 SRC += board.c
 SRC += firefly.c
-SRC += firefly_utils.c
 SRC += gif.c
 SRC += meadow.c
 SRC += neighbours.c
