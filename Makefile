@@ -1,104 +1,180 @@
-NAME = firefly_sim
+START_TIME := $(shell date +%s%3N)
+BUILD_DIR := .build
 
-CC = gcc
-CFLAGS = -I includes -I libs/gifenc -O3
+NAME := firefly_sim
+NAME_DEBUG := debug
 
-SRC_DIR = src
+# ↓ Sources
 
-SRC := $(SRC_DIR)/main.c
+VPATH := src
+SRC += main.c
+SRC += board.c
+SRC += firefly.c
+SRC += firefly_utils.c
+SRC += gif.c
+SRC += meadow.c
+SRC += meadow_display.c
+SRC += neighbours.c
+SRC += neighbours_compute.c
+SRC += population.c
+SRC += simulation.c
 
-SRC += $(SRC_DIR)/board.c
-SRC += $(SRC_DIR)/firefly.c
-SRC += $(SRC_DIR)/firefly_utils.c
-SRC += $(SRC_DIR)/gif.c
-SRC += $(SRC_DIR)/meadow.c
-SRC += $(SRC_DIR)/meadow_display.c
-SRC += $(SRC_DIR)/neighbours.c
-SRC += $(SRC_DIR)/neighbours_compute.c
-SRC += $(SRC_DIR)/population.c
-SRC += $(SRC_DIR)/simulation.c
+VPATH += libs/gifenc
+SRC += gifenc.c
 
-SRC += libs/gifenc/gifenc.c
+# ↓ Debug only sources
 
-# Build
-BUILD_DIR = build
-OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
+DSRC := $(SRC)
 
-# Deps
-DEPS := $(SRC:%.c=$(BUILD_DIR)/%.d)
+# ↓ Config
+CC := gcc
 
-# Colors
-ifneq ($(shell tput colors),0)
-    C_BOLD=\e[1m
-    C_RESET=\033[00m
-    C_BLUE=\e[34m
-    C_RED=\e[31m
-    C_CYAN=\e[36m
+CFLAGS := -W -Wall -Wextra
+CFLAGS := -O2 -march=native
+CFLAGS += -iquote ./include
+CFLAGS += -U_FORTIFY_SOURCE
+
+CFLAGS += -iquote ./includes
+CFLAGS += -iquote libs/gifenc
+
+# ↓ Recipes
+OBJ := $(SRC:%.c=$(BUILD_DIR)/release/%.o)
+OBJ_DEBUG := $(DSRC:%.c=$(BUILD_DIR)/debug/%.o)
+
+DEPFLAGS := -MMD -MP
+
+DEPS := $(OBJ:.o=.d)
+DEPS_DEBUG := $(OBJ_DEBUG:.o=.d)
+
+NAMES += $(NAME)
+NAMES += $(NAME_DEBUG)
+
+OBJS += $(OBJ)
+OBJS += $(OBJ_DEBUG)
+OBJS += $(OBJ_TESTS)
+
+# ↓ clean & fclean helpers
+CLEAN := $(OBJS)
+FCLEAN := $(NAMES) $(BUILD_DIR)
+
+ifeq ($(FORCE_DEBUG),1)
+    CFLAGS += -D DEBUG_MODE
 endif
 
-ECHO = echo -e
+# ↓ `touch .fast` to force multi-threading
+ifneq ($(shell find . -name ".fast"),)
+    MAKEFLAGS += -j
+endif
 
-# Output
-ASK = @ $(ECHO) "$(C_BOLD)$(C_BLUE)?$(C_RESET)"
-OK = @ $(ECHO) "$(C_BOLD)[$(C_BLUE)OK$(C_RESET)$(C_BOLD)]$(C_RESET)"
-KO = @ $(ECHO) "$(C_BOLD)[$(C_RED)KO$(C_RESET)$(C_BOLD)]$(C_RESET)"
-NTD = @ $(ECHO) "$(C_BOLD)Nothing to do.$(C_RESET)"
+# ↓ Quiet
+V ?=
+ifeq ($(V), 1)
+    $(info Verbose mode enabled)
+    Q :=
+else
+    Q := @
+endif
 
-# Errors
-DIE = exit 1
+CMD_NOT_FOUND = $(error $(strip $(1)) is required for this rule)
+CHECK_CMD = $(if $(shell command -v $(1)),, $(call CMD_NOT_FOUND, $(1)))
+
+# ↓ Utils
+ifneq ($(shell tput colors),0)
+    C_RESET := \033[00m
+    C_BOLD := \e[1m
+    C_RED := \e[31m
+    C_GREEN := \e[32m
+    C_YELLOW := \e[33m
+    C_BLUE := \e[34m
+    C_PURPLE := \e[35m
+    C_CYAN := \e[36m
+endif
+
+_SOLVE_COLORS = $(subst :r,$(C_RED), \
+    $(subst :c,$(C_CYAN),            \
+    $(subst :p,$(C_PURPLE),          \
+    $(subst :y,$(C_YELLOW),          \
+    $(subst :b,$(C_BLUE),            \
+    $(subst :g,$(C_GREEN),           \
+    $(subst *,$(C_BOLD),             \
+    $(subst ~,$(C_RESET),            \
+    $(addprefix $(call _UNQUOTE,$(1)),~))))))))) # Do you like lisp?
+
+## ↓ Hack to make highlighter happy
+_UNQUOTE = $(subst ",,$(subst ',,$(1)))##")
+_QUOTE = "$(strip $(1))"
+
+COLORIZE = $(call _QUOTE, $(call _SOLVE_COLORS, $(1)))
+
+CURRENT_TIME_MS = $(shell date +%s%3N)
+TIME = $(shell expr $(call CURRENT_TIME_MS) - $(START_TIME))
+
+HEADER := ":p"
+LOG = @ echo -e $(call COLORIZE,$(2) ~$(TIME_BOX) $(HEADER)~ $(1)~)
+TIME_BOX = "[ :b"$(call TIME)"~\t]"
+
+ifneq ($(shell find . -name override.mk),)
+    HOOK_BEFORE := 1
+    -include override.mk
+	undefine HOOK_BEFORE
+endif
 
 all: $(NAME)
-	$(NTD)
 
-# Check
-%.c:
-	$(KO) "Missing file: $@" && $(DIE)
+.PHONY: all
+
+$(NAME): HEADER += "release"
+$(NAME): $(OBJ)
+	$Q $(CC) $(CFLAGS) $(LIBFLAGS) $(LDLIBS) -o $@ $^
+	$(call LOG,":g$@")
+
+$(BUILD_DIR)/release/%.o: %.c
+	@ mkdir -p $(dir $@)
+	$Q $(CC) $(DEPFLAGS) $(CFLAGS) -c $< -o $@
+	$(call LOG, ":c" $(notdir $@))
+
+$(NAME_DEBUG): CFLAGS += -g3 -D DEBUG_MODE
+$(NAME_DEBUG): HEADER += "debug"
+$(NAME_DEBUG): $(OBJ_DEBUG)
+	$Q $(CC) $(CFLAGS) $(LIBFLAGS) $(LDLIBS) -o $@ $^
+	$(call LOG,":g$@")
+
+$(BUILD_DIR)/debug/%.o: %.c
+	@ mkdir -p $(dir $@)
+	$Q $(CC) $(DEPFLAGS) $(CFLAGS) -c $< -o $@
+	$(call LOG, ":c" $(notdir $@))
+
+clean:
+	$(call _FIND_LOG, $(CLEAN))
+
+	$Q $(RM) $(CLEAN)
+	$Q $(RM) -f vgcore.*
+
+fclean:
+	$(call _FIND_LOG, $(FCLEAN))
+
+	$Q $(RM) -f vgcore.*
+	$Q $(RM) -r $(FCLEAN)
+
+_FIND_LOG = $(if                                             \
+	$(shell find $(1) 2> /dev/null),                         \
+	$(call LOG,"Removed:r" $(shell find $(1) 2> /dev/null)), \
+)
+
+re:	fclean
+	@ make -sC . all
 
 %:
-	$(KO) "Unknown directive $@" && $(DIE)
+	$(call SENTINEL, $@)
 
-$(BUILD_DIR)/%.d: %.c
-	@ mkdir -p $(dir $@)
-	@ $(CC) $(CFLAGS) $(DFLAGS) -MM -MT $(@:.d=.o) $< -MF $@
+%.c:
+	$(call SENTINEL, $@)
 
 -include $(DEPS)
+-include $(DEPS_DEBUG)
 
-# Link
-$(BUILD_DIR)/%.o: %.c
-	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ || $(DIE)
-	$(OK) "$(CC) $(C_CYAN)    $<$(C_RESET)"
-
-# Exec
-$(NAME): $(DEPS) $(OBJ)
-	$(CC) $(DFLAGS) -o $(NAME) $(OBJ) $(CFLAGS) || $(DIE)
-	$(OK) "Compiled $(C_BLUE)$(shell echo "$?" | wc -w)$(C_RESET) file(s)"
-
-v: CFLAGS += -g
-
-v: re
-	$(ASK) "program arguments"
-	@ read ARG; valgrind --track-origins=yes --leak-check=full -s \
- 		./$(NAME) $${ARG} 2> "logs/trace_$(shell date +%s)_.log"
-	$(NTD)
-
-.PHONY: v
-
-# Clean
-clean:
-	@ rm -rf $(BUILD_DIR)
-	$(OK) "Deleted $(C_BLUE)$(BUILD_DIR)$(C_RESET)"
-	@ rm -f *.log
-	$(OK) "Deleted $(C_BLUE)*.log$(C_RESET)"
-	@ rm -rf $(COV_DIR)
-	$(OK) "Deleted $(C_BLUE)$(COV_DIR)$(C_RESET)"
-
-fclean: clean
-	@ rm -f "$(NAME)"
-	@ rm -f "$(TESTS_EXEC)"
-	$(OK) "Deleted executable(s)"
-
-
-re: fclean all
-
-.PHONY: fclean re
+ifneq ($(shell find . -name override.mk),)
+    HOOK_AFTER := 1
+    -include override.mk
+	undefine HOOK_AFTER
+endif
