@@ -34,7 +34,7 @@ CFLAGS := -O2 -march=native
 CFLAGS += -iquote ./include
 CFLAGS += -U_FORTIFY_SOURCE
 
-CFLAGS += -iquote ./includes
+CFLAGS += -iquote ./include
 CFLAGS += -iquote libs/gifenc
 
 # ↓ Recipes
