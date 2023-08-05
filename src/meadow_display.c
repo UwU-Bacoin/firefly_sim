@@ -4,16 +4,16 @@
 #include "firefly.h"
 #include "meadow.h"
 
-__attribute__((nonnull(2)))
-static void meadow_display_firefly(int ff_id, population_t *pop)
+static
+void meadow_display_firefly(int ff_id, population_t *pop)
 {
     firefly_t *ff = pop->individuals[ff_id];
 
     printf("%c", firefly_symbol(ff->energy));
 }
 
-__attribute__((nonnull(1, 2)))
-static void meadow_display_line(meadow_t *meadow, population_t *pop, int line)
+static
+void meadow_display_line(meadow_t *meadow, population_t *pop, int line)
 {
     printf("#");
     for (int i = 0; i < meadow->width; i++) {
@@ -26,9 +26,10 @@ static void meadow_display_line(meadow_t *meadow, population_t *pop, int line)
     printf("#\n");
 }
 
-__attribute__((nonnull(1, 2)))
 void meadow_display(meadow_t *meadow, population_t *pop)
 {
+    if (meadow == NULL || pop == NULL)
+        return;
     for (int i = 0; i < meadow->height + 2; i++)
         printf("#");
     printf("\n");

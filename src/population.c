@@ -3,8 +3,8 @@
 #include "population.h"
 #include "neighbours.h"
 
-__attribute__((nonnull(1)))
-static population_t *population_alloc_failed(population_t *pop, int i)
+static
+population_t *population_alloc_failed(population_t *pop, int i)
 {
     for (int j = i - 1; j >= 0; j--)
         free(pop->individuals[j]);
@@ -33,17 +33,19 @@ population_t *population_create(int size)
     return pop;
 }
 
-__attribute__((nonnull(1)))
 void population_destroy(population_t *pop)
 {
+    if (pop == NULL)
+        return;
     population_alloc_failed(pop, pop->size);
 }
 
-__attribute__((nonnull(1, 2)))
 void population_update(population_t *pop, int **neighbours)
 {
     firefly_t *ff;
 
+    if (pop == NULL || neighbours == NULL)
+        return;
     for (int i = 0; i < pop->size; i++) {
         ff = pop->individuals[i];
         if (ff->energy > F_THRESHOLD) {

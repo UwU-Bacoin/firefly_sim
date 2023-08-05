@@ -22,13 +22,19 @@ meadow_t *meadow_init_empty(int height, int width)
     return meadow;
 }
 
-__attribute__((nonnull(1, 2)))
-static meadow_t *meadow_populate(meadow_t *meadow, population_t *pop)
+meadow_t *meadow_init(int height, int width, population_t *pop)
 {
     int x;
     int y;
-    int pop_n = pop->size;
+    int pop_n;
+    meadow_t *meadow;
 
+    if (pop == NULL)
+        return NULL;
+    meadow = meadow_init_empty(height, width);
+    if (meadow == NULL)
+        return NULL;
+    pop_n = pop->size;
     while (pop_n) {
         x = rand() % meadow->width;
         y = rand() % meadow->height;
@@ -40,19 +46,10 @@ static meadow_t *meadow_populate(meadow_t *meadow, population_t *pop)
     return meadow;
 }
 
-__attribute__((nonnull(3)))
-meadow_t *meadow_init(int height, int width, population_t *pop)
-{
-    meadow_t *meadow = meadow_init_empty(height, width);
-
-    if (meadow == NULL)
-        return NULL;
-    return meadow_populate(meadow, pop);
-}
-
-__attribute__((nonnull(1)))
 void meadow_destroy(meadow_t *meadow)
 {
+    if (meadow == NULL)
+        return;
     board_free(meadow->content, meadow->height);
     free(meadow);
 }

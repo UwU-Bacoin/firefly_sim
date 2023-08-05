@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include "board.h"
 
-__attribute__((nonnull(1)))
-static int **board_alloc_failed(int **board, int i)
+static
+int **board_alloc_failed(int **board, int i)
 {
+    if (board == NULL)
+        return NULL;
     for (int j = i - 1; j >= 0; j--)
         free(board[j]);
     free(board);

@@ -3,7 +3,7 @@
 
 char firefly_symbol(double energy_level)
 {
-    return (energy_level > F_THRESHOLD) ? '*': '.';
+    return (energy_level > F_THRESHOLD) ? '*' : '.';
 }
 
 void firefly_display(double energy_level, bool verbose)
