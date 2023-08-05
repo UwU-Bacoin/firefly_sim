@@ -19,9 +19,7 @@ typedef struct firefly {
 } firefly_t;
 
 firefly_t *firefly_init(void);
-void firefly_destroy(firefly_t *firefly);
 
 char firefly_symbol(double energy_level);
 void firefly_increment(firefly_t *ff);
-void firefly_display(double energy_level, bool verbose);
 #endif

@@ -8,6 +8,7 @@
 #include "neighbours.h"
 
 __attribute__((constructor))
+__attribute__((used))
 void init_random(void)
 {
     srand48(time(NULL) + getpid());
@@ -17,7 +18,7 @@ void init_random(void)
 int main(void)
 {
     population_t *pop = population_create(100);
-    meadow_t *meadow = meadow_init(13, 13, pop);
+    meadow_t *meadow = meadow_init(128, 128, pop);
     int **neighbours = neighbours_compute(meadow, pop->size);
 
     simulate_meadow_steps(meadow, pop, 1000, neighbours);
